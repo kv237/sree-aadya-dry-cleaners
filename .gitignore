@@ -1,1 +1,55 @@
+# ----------------------------
+# Node.js dependencies
+# ----------------------------
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# ----------------------------
+# Firebase & Environment Files
+# ----------------------------
 config/firebaseServiceAccount.json
+.env
+config/*.key.json
+config/*.pem
+
+# ----------------------------
+# Build and cache files
+# ----------------------------
+dist/
+build/
+.cache/
+coverage/
+.tmp/
+
+# ----------------------------
+# OS / Editor specific files
+# ----------------------------
+.DS_Store
+Thumbs.db
+*.log
+*.bak
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# ----------------------------
+# Firebase local emulator data
+# ----------------------------
+.firebase/
+.firebaserc
+.storage/
+database-debug.log
+
+# ----------------------------
+# Backup / Zip / Misc files
+# ----------------------------
+*.zip
+*.tar
+*.gz
+*.rar
+backup/
+node_modules
