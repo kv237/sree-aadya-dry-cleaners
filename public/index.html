@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SREE AADYA DRY CLEANERS | Premium Laundry Care</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+  color: #fff;
+  background: #111;
+}
+
+/* HEADER */
+header {
+  width: 100%;
+  padding: 18px 5%;
+  background: rgba(0, 0, 0, 0.85);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header .logo-container {
+  position: absolute;
+  left: 10px;
+  top: 5px;
+}
+
+header .logo-container img {
+  width: 170px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+header .logo-container img:hover {
+  transform: scale(1.1);
+}
+
+header .center-content {
+  text-align: center;
+}
+
+header h1 {
+  font-size: 48px;
+  font-weight: 900;
+  color: #2196f3;
+  letter-spacing: 2px;
+  text-shadow: 0 0 25px rgba(33, 150, 243, 0.8);
+  margin: 10px 0;
+}
+header h1:hover {
+  text-shadow: 0 0 30px #2196f3, 0 0 50px rgba(33, 150, 243, 0.6);
+}
+
+header nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+header nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  font-size: 18px;
+  transition: all 0.3s;
+}
+
+header nav a:hover {
+  color: #2196f3;
+  text-shadow: 0 0 10px #2196f3, 0 0 20px rgba(33, 150, 243, 0.6);
+}
+
+/* HERO */
+#home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  background: url('https://i.etsystatic.com/29049262/r/il/be7c8e/7309187902/il_1588xN.7309187902_239w.jpg') no-repeat center center/cover;
+  position: relative;
+}
+#home::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+#home h2, #home p, #home button {
+  position: relative;
+  z-index: 2;
+}
+#home h2 {
+  font-size: 58px;
+  font-weight: 800;
+  text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.8);
+}
+#home p {
+  font-size: 22px;
+  margin: 20px 0;
+  max-width: 700px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+}
+#home button {
+  background: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 16px 38px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.6);
+  transition: all 0.3s ease;
+}
+#home button:hover {
+  background: #1e88e5;
+  transform: scale(1.08);
+  box-shadow: 0 6px 25px rgba(33, 150, 243, 0.8);
+}
+
+/* ABOUT SECTION BACKGROUND */
+#about {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 10% 80px;
+  background: url('https://imgs.search.brave.com/N4tcxDwqjTKU9SQ5RPH56TejjcmxouAQjI8iQT0iWPg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNTA0/Mzg2MzM2L3Bob3Rv/L21hbi13YXNoaW5n/LWNsb3RoZXMtYXQt/bGF1bmRyb21hdC5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/TXdzdWdub3BkVWhC/c19ES0JBYl9Kc2xv/T3c4MDQ0RVMwTGVx/Wk9ROFNEYz0') no-repeat center center/cover;
+  color: #fff;
+}
+
+#about::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 0;
+}
+#about h2, #about p, #about .process {
+  position: relative;
+  z-index: 2;
+}
+#about h2 {
+  font-size: 44px;
+  color: #2196f3;
+  margin-bottom: 20px;
+}
+#about p {
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 900px;
+  margin-bottom: 40px;
+}
+
+/* PROCESS CARDS */
+.process {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+.step {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  width: 280px;
+  padding: 26px 18px;
+  backdrop-filter: blur(8px);
+  transition: all .35s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+.step:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 14px 36px rgba(33, 150, 243, 0.18);
+}
+.step img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+.step h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.step p {
+  font-size: 14.5px;
+  color: #e6e6e6;
+  line-height: 1.6;
+}
+
+/* WHY CHOOSE US BACKGROUND */
+#why-us {
+  position: relative;
+  text-align: center;
+  padding: 100px 10%;
+  background: url('https://imgs.search.brave.com/mEAV1Psr3EsNBnh88LWnBuWrQSTJx64P-kJWGtvf_6A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMy/OTM4NTQyNS9waG90/by95b3VuZy1jb3Vw/bGUtbG9va2luZy1m/b3ItYS1wcm9wZXIt/ZHJ5aW5nLW1hY2hp/bmUuanBnP3M9NjEy/eDYxMiZ3PTAmaz0y/MCZjPVZRQzk2a2xz/RUVScV9GbmR0dzBf/NGlDa181NDhMMXJE/WkJWS1pyanljWjQ9') no-repeat center center/cover;
+  color: #fff;
+}
+
+#why-us::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+#why-us h2, #why-us .reasons {
+  position: relative;
+  z-index: 2;
+}
+#why-us h2 {
+  font-size: 44px;
+  color: #2196f3;
+  margin-bottom: 40px;
+  text-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+}
+.reasons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+.reason {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  width: 280px;
+  padding: 30px 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.reason:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(33, 150, 243, 0.2);
+}
+.reason i {
+  font-size: 40px;
+  color: #2196f3;
+  margin-bottom: 15px;
+}
+.reason h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.reason p {
+  font-size: 15px;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+/* FOOTER */
+footer {
+  background: rgba(0, 0, 0, 0.9);
+  padding: 16px 5%;
+  text-align: center;
+  color: #fff;
+}
+footer .social a {
+  text-decoration: none;
+  margin: 0 12px;
+  display: inline-block;
+}
+footer .social i {
+  font-size: 26px;
+  color: #fff;
+  transition: all .28s ease;
+}
+footer .social a:hover i {
+  color: #2196f3;
+  transform: scale(1.2);
+}
+footer p {
+  font-size: 14px;
+  color: #d3d3d3;
+  margin-top: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo-container">
+    <a href="#home"><img src="image/logo.png" alt="Sree Aadya Dry Cleaners Logo"></a>
+  </div>
+  
+  <div class="center-content">
+    <h1>SREE AADYA DRY CLEANERS</h1>
+    <nav>
+      <a href="#home">HOME</a>
+      <a href="#about">ABOUT</a>
+      <a href="#why-us">WHY CHOOSE US</a>
+      <a href="#">CONTACT</a>
+      <a href="login.html">LOGIN</a>
+      <a href="signup.html">SIGNUP</a>
+    </nav>
+  </div>
+</header>
+
+<section id="home">
+  <h2>Welcome to Sree Aadya Dry Cleaners</h2>
+  <p>Redefining laundry care with professional cleaning, gentle fabric treatment, and eco-friendly precision. Let us make your clothes shine again!</p>
+  <button onclick="window.location.href='#about'">Explore How We Work</button>
+</section>
+
+<section id="about">
+  <h2>Our Premium Cleaning Process</h2>
+  <p>At <strong>Sree Aadya Dry Cleaners</strong>, every fabric gets five-star treatment. From doorstep pickup to stain removal,
+  advanced dry cleaning technology, and perfect finishing — we make sure your garments stay soft, bright, and long-lasting.</p>
+
+  <div class="process">
+    <div class="step">
+      <img src="https://imgs.search.brave.com/K7UZPfyabgauzbtrJbcbPLjeNziSl990s2aXYOaZs4k/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzExLzY1Lzc0Lzc0/LzM2MF9GXzExNjU3/NDc0MjJfQzF1WlYz/azdRWjZXYlFVNnZh/cFNJYmpDTlF4NTVX/UlouanBn" alt="Doorstep Pickup" />
+      <h3>1. Doorstep Pickup</h3>
+      <p>We pick up your clothes at your convenience — fast, safe, and reliable.</p>
+    </div>
+    <div class="step">
+      <img src="https://i.etsystatic.com/6890012/r/il/5395f6/6178932642/il_1588xN.6178932642_66gx.jpg" alt="Deep Cleaning Process" />
+      <h3>2. Deep Cleaning</h3>
+      <p>Using advanced, eco-safe technology, we remove tough stains while preserving quality.</p>
+    </div>
+    <div class="step">
+      <img src="https://i.etsystatic.com/61491217/r/il/8de1ed/7358537173/il_1588xN.7358537173_aroo.jpg" alt="Ironing Process" />
+      <h3>3. Finishing & Ironing</h3>
+      <p>Steam-pressed, wrinkle-free, and ready-to-wear perfection every time.</p>
+    </div>
+    <div class="step">
+      <img src="image/secure delivery.jpeg" alt="Secure Delivery" />
+      <h3>4. Secure Delivery</h3>
+      <p>Delivered fresh, neatly packed, and always on time — your satisfaction is our priority.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US SECTION -->
+<section id="why-us">
+  <h2>Why Choose Us</h2>
+  <div class="reasons">
+    <div class="reason">
+      <i class="fas fa-leaf"></i>
+      <h3>Eco-Friendly Cleaning</h3>
+      <p>We use biodegradable detergents and water-saving processes to protect your clothes and the environment.</p>
+    </div>
+    <div class="reason">
+      <i class="fas fa-clock"></i>
+      <h3>On-Time Delivery</h3>
+      <p>Every order is completed and delivered exactly when promised — reliability you can count on.</p>
+    </div>
+    <div class="reason">
+      <i class="fas fa-tshirt"></i>
+      <h3>Fabric Care Experts</h3>
+      <p>From silk to wool, our experts treat each fabric with the utmost precision and professional care.</p>
+    </div>
+    <div class="reason">
+      <i class="fas fa-user-check"></i>
+      <h3>Customer Satisfaction</h3>
+      <p>Your happiness matters — that’s why we ensure quality checks for every item before delivery.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="content">
+    <div class="social">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+    <p>&copy; 2025 SREE AADYA DRY CLEANERS | All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>

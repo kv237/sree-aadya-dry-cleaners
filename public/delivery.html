@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery Status | Sree Aadya Dry Cleaners</title>
+
+<!-- Google Fonts & Font Awesome -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+  body { background: #f8f9fc; color: #333; }
+  header { background: #003366; color: #fff; text-align: center; padding: 18px 10px; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.5px; }
+  .status-container { max-width: 700px; background: #fff; margin: 50px auto; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+  .status-header { text-align: center; margin-bottom: 35px; }
+  .status-header h2 { color: #003366; font-size: 1.8rem; font-weight: 600; }
+  .order-id { color: #666; font-size: 0.95rem; margin-top: 5px; }
+  .progressbar { display: flex; justify-content: space-between; position: relative; margin: 40px 0 60px; }
+  .progressbar::before { content: ""; position: absolute; top: 20px; left: 12%; width: 76%; height: 4px; background: #d3d3d3; z-index: 0; }
+  .step { text-align: center; position: relative; width: 20%; z-index: 1; }
+  .step i { width: 40px; height: 40px; background: #d3d3d3; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 8px; transition: all 0.3s ease; }
+  .step.active i { background: #003366; transform: scale(1.1); }
+  .step p { font-size: 0.9rem; color: #555; }
+  .tracking-info { background: #eef3fa; padding: 20px; border-radius: 12px; font-size: 0.95rem; line-height: 1.6; }
+  .tracking-info span { color: #003366; font-weight: 600; }
+  footer { text-align: center; color: #888; font-size: 0.85rem; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<header>Sree Aadya Dry Cleaners</header>
+
+<div class="status-container">
+  <div class="status-header">
+    <h2>Delivery Status</h2>
+    <p class="order-id">Order ID: <strong id="orderId">#Loading...</strong></p>
+  </div>
+
+  <div class="progressbar">
+    <div class="step" id="step1"><i class="fa-solid fa-box"></i><p>Order Placed</p></div>
+    <div class="step" id="step2"><i class="fa-solid fa-soap"></i><p>In Cleaning</p></div>
+    <div class="step" id="step3"><i class="fa-solid fa-tshirt"></i><p>Ready for Delivery</p></div>
+    <div class="step" id="step4"><i class="fa-solid fa-truck"></i><p>Out for Delivery</p></div>
+    <div class="step" id="step5"><i class="fa-solid fa-house"></i><p>Delivered</p></div>
+  </div>
+
+  <div class="tracking-info">
+    <p><span>Current Status:</span> <span id="currentStatus">Loading...</span></p>
+    <p><span>Expected Delivery:</span> <span id="expectedDelivery">Loading...</span></p>
+    <p><span>Pickup Person:</span> <span id="pickupPerson">Loading...</span></p>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Sree Aadya Dry Cleaners | All Rights Reserved
+</footer>
+
+<!-- ✅ Firebase Integration -->
+<script type="module">
+  // ✅ Import Firebase directly from CDN
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+  // ✅ Your Firebase configuration (replace these with your own Firebase values)
+  const firebaseConfig = {
+   apiKey: "AIzaSyDcHCOVKKyq4tL9Wvp28hEd-W9Vrl5PBRA",
+  authDomain: "sree-aadya-dry-cleaners-ec791.firebaseapp.com",
+  databaseURL: "https://sree-aadya-dry-cleaners-ec791-default-rtdb.firebaseio.com",
+  projectId: "sree-aadya-dry-cleaners-ec791",
+  storageBucket: "sree-aadya-dry-cleaners-ec791.firebasestorage.app",
+  messagingSenderId: "726289161499",
+  appId: "1:726289161499:web:0fbf79769b4a66b9ee07be",
+  measurementId: "G-ZL08672KFF"
+  };
+
+  // ✅ Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // ✅ Fetch Order ID from URL (e.g., ?id=AADYA-00001)
+  const params = new URLSearchParams(window.location.search);
+  const orderId = params.get("id") || "";
+
+  const orderIdElement = document.getElementById("orderId");
+  const currentStatusEl = document.getElementById("currentStatus");
+  const expectedEl = document.getElementById("expectedDelivery");
+  const pickupEl = document.getElementById("pickupPerson");
+
+  if (!orderId) {
+    orderIdElement.textContent = "Missing ID";
+    currentStatusEl.textContent = "Please provide ?id=ORDER_ID in the URL";
+  } else {
+    orderIdElement.textContent = "#" + orderId;
+
+    // ✅ Reference to order in Firebase
+    const orderRef = ref(db, "orders/" + orderId);
+    onValue(orderRef, (snapshot) => {
+      const order = snapshot.val();
+
+      if (!order) {
+        currentStatusEl.textContent = "Order not found";
+        expectedEl.textContent = "—";
+        pickupEl.textContent = "—";
+        return;
+      }
+
+      currentStatusEl.textContent = order.status || "Pending";
+      expectedEl.textContent = order.expectedDelivery || "Not provided";
+      pickupEl.textContent = order.pickupPerson || "Not assigned";
+
+      // ✅ Update progress steps
+      const steps = ["Order Placed", "In Cleaning", "Ready for Delivery", "Out for Delivery", "Delivered"];
+      const idx = Math.max(0, steps.indexOf(order.status));
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById("step" + i).classList.toggle("active", i - 1 <= idx);
+      }
+    });
+  }
+</script>
+</body>
+</html>

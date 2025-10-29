@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sree Aadya Dry Cleaners | Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+  display:flex;justify-content:center;align-items:center;
+  height:100vh;
+  background:url('https://i.etsystatic.com/29049262/r/il/be7c8e/7309187902/il_1588xN.7309187902_239w.jpg') no-repeat center center/cover;
+  color:#fff;
+}
+.container{
+  background:rgba(0,0,0,0.65);
+  padding:36px;border-radius:14px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+  width:360px;text-align:center;backdrop-filter: blur(10px);
+}
+h2{color:#2196f3;margin-bottom:18px;}
+.input-group{position:relative;}
+input{
+  width:100%;padding:12px 40px 12px 12px;margin:10px 0;border:none;border-radius:8px;
+  outline:none;font-size:15px;background:rgba(255,255,255,0.08);color:#fff;
+}
+input:focus{background:rgba(255,255,255,0.15);}
+.eye-icon{
+  position:absolute;
+  top:50%;right:12px;
+  transform:translateY(-50%);
+  color:#ccc;cursor:pointer;
+}
+button{
+  background:#2196f3;color:#fff;border:none;padding:12px;width:100%;
+  border-radius:8px;font-weight:600;cursor:pointer;margin-top:12px;transition:all .2s ease;
+}
+button:hover{background:#1976d2;transform:translateY(-2px);}
+p{margin-top:12px;font-size:14px;color:#ddd;}
+a{color:#2196f3;text-decoration:none;cursor:pointer;}
+a:hover{text-decoration:underline;}
+.modal-backdrop{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  z-index:1000;align-items:center;justify-content:center;
+}
+.modal{
+  background:rgba(0,0,0,0.85);color:#fff;padding:30px;border-radius:12px;
+  width:90%;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,0.6);
+  text-align:center;backdrop-filter: blur(12px);
+}
+.modal h3{color:#2196f3;margin-bottom:10px;}
+.hidden{display:none;}
+#googleBtn{margin-top:12px;background:#fff;color:#333;font-weight:500;}
+#googleBtn i{color:#db4437;margin-right:8px;}
+#closeReset{background:#555;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Welcome Back</h2>
+  <form id="loginForm">
+    <input id="email" type="email" placeholder="Email" required>
+    <div class="input-group">
+      <input id="password" type="password" placeholder="Password" required>
+      <i class="fa-solid fa-eye eye-icon" id="togglePassword"></i>
+    </div>
+    <button type="submit">Login</button>
+  </form>
+
+  <!-- Google Login Button -->
+  <button id="googleBtn"><i class="fa-brands fa-google"></i>Sign in with Google</button>
+
+  <p><a id="forgotLink">Forgot Password?</a></p>
+  <p>Don’t have an account? <a href="signup.html">Sign Up</a></p>
+</div>
+
+<!-- Login Success Popup -->
+<div id="popup" class="modal-backdrop">
+  <div class="modal">
+    <h3>Login Successful</h3>
+    <p>Redirecting to your dashboard...</p>
+  </div>
+</div>
+
+<!-- 🔑 Forgot Password Popup -->
+<div id="resetPopup" class="modal-backdrop">
+  <div class="modal">
+    <h3>Reset Password</h3>
+    <p>Enter your registered email and new password</p>
+
+    <input type="email" id="resetEmail" placeholder="Email Address" required>
+    <input type="password" id="newPassword" placeholder="New Password" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+    <button id="sendResetBtn">Update Password</button>
+    <button id="closeReset">Cancel</button>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+// 👁️ Password toggle
+document.getElementById("togglePassword").onclick = () => {
+  const field = document.getElementById("password");
+  field.type = field.type === "password" ? "text" : "password";
+};
+
+// 🌐 Backend API
+const API_BASE = "http://localhost:5000";
+
+// 🔐 Login Function
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (!email || !password) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("userEmail", data.user.email); // ✅ Added line
+
+      document.getElementById("popup").style.display = "flex";
+      setTimeout(() => (window.location.href = "dashboard.html"), 2000);
+    } else {
+      alert(data.message || "Invalid email or password.");
+    }
+  } catch (error) {
+    console.error("❌ Login Error:", error);
+    alert("Unable to connect to the server. Make sure it’s running on port 5000.");
+  }
+});
+
+// 🔹 Google Sign-In Integration
+window.onload = function() {
+  google.accounts.id.initialize({
+    client_id: "965231085923-js980aremi5hgi3ne2qv914auafv36nd.apps.googleusercontent.com",
+    callback: handleGoogleResponse,
+  });
+  google.accounts.id.renderButton(
+    document.getElementById("googleBtn"),
+    { theme: "outline", size: "large" }
+  );
+};
+
+async function handleGoogleResponse(response) {
+  try {
+    const res = await fetch(`${API_BASE}/google-login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: response.credential }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("userEmail", data.user.email); // ✅ Added line
+
+      document.getElementById("popup").style.display = "flex";
+      setTimeout(() => (window.location.href = "dashboard.html"), 2000);
+    } else alert(data.message || "Google login failed.");
+  } catch (error) {
+    console.error("❌ Google Login Error:", error);
+    alert("Server error during Google login.");
+  }
+}
+
+// 🔁 Forgot Password Popup
+const forgotLink = document.getElementById("forgotLink");
+const resetPopup = document.getElementById("resetPopup");
+const closeReset = document.getElementById("closeReset");
+
+forgotLink.addEventListener("click", () => {
+  resetPopup.style.display = "flex";
+});
+
+closeReset.addEventListener("click", () => {
+  resetPopup.style.display = "none";
+});
+
+// ✉️ Update Password Logic
+document.getElementById("sendResetBtn").addEventListener("click", async () => {
+  const email = document.getElementById("resetEmail").value.trim();
+  const newPassword = document.getElementById("newPassword").value.trim();
+  const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+  if (!email || !newPassword || !confirmPassword) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    alert("Passwords do not match.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, newPassword }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert("✅ Password updated successfully!");
+      resetPopup.style.display = "none";
+    } else {
+      alert(data.message || "Failed to update password.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Server error. Try again later.");
+  }
+});
+</script>
+</body>
+</html>

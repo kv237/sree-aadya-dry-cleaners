@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Connection Test</title>
+</head>
+<body style="font-family:sans-serif; text-align:center; margin-top:100px;">
+  <h2>🔍 Firebase Connection Test</h2>
+  <button id="testBtn" style="padding:10px 20px; font-size:16px;">Test Firebase Write</button>
+  <p id="result" style="margin-top:20px; color:#003366;"></p>
+
+  <script type="module">
+    import { db } from "./firebase.js";
+    import { ref, set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+    const btn = document.getElementById("testBtn");
+    const result = document.getElementById("result");
+
+    btn.addEventListener("click", async () => {
+      const path = "test/debug";
+      const data = {
+        message: "Firebase is working!",
+        time: new Date().toISOString()
+      };
+
+      try {
+        await set(ref(db, path), data);
+        result.textContent = "✅ Test data saved successfully!";
+        result.style.color = "green";
+        console.log("Saved data:", data);
+      } catch (err) {
+        result.textContent = "❌ Error: " + err.message;
+        result.style.color = "red";
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Dashboard | Sree Aadya Dry Cleaners</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: url('https://media.gettyimages.com/id/2216546853/photo/female-laundry-professional-at-work.jpg?s=612x612&w=0&k=20&c=2xmKH6q27XF3lRw8TwBeUnNzNh5BnIwP173ydsEwIBc=') no-repeat center center/cover;
+  background-attachment: fixed;
+  color: #fff;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: -1;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+
+/* Logo Section */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+.logo img {
+  height: 160px;
+  width: auto;
+  border-radius: 15px;
+}
+
+/* Title */
+header h1 {
+  flex: 1;
+  text-align: center;
+  font-size: 38px;
+  font-weight: 700;
+  color: #2196f3;
+  text-shadow: 0 0 10px rgba(33,150,243,0.8), 0 0 20px rgba(33,150,243,0.6);
+  letter-spacing: 1px;
+}
+
+/* Toggle Button */
+.menu-toggle {
+  font-size: 26px;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-right: 60px;
+}
+.menu-toggle:hover {
+  transform: scale(1.15);
+}
+
+/* Navigation Menu */
+.nav-menu {
+  display: none;
+  position: absolute;
+  right: 40px;
+  top: 120px;
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  min-width: 220px;
+}
+.nav-menu a {
+  display: block;
+  color: #fff;
+  padding: 14px 20px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.nav-menu a:hover {
+  background: #2196f3;
+}
+
+/* Main Content */
+.main-content {
+  margin-top: 180px;
+  padding: 40px;
+  min-height: 100vh;
+}
+#welcomeText {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+/* Dashboard Cards */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.card {
+  flex: 1 1 250px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(33,150,243,0.3);
+}
+.card i {
+  font-size: 40px;
+  color: #2196f3;
+  margin-bottom: 10px;
+}
+.card h3 {
+  margin-bottom: 8px;
+}
+.card p {
+  color: #ddd;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0,0,0,0.7);
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+.social-icons i {
+  font-size: 24px;
+  margin: 0 15px;
+  color: #2196f3;
+  transition: 0.3s;
+}
+.social-icons i:hover {
+  color: #fff;
+  transform: scale(1.2);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo">
+      <img src="image/logo.png" alt="Sree Aadya Logo">
+    </div>
+  </div>
+
+  <h1>Sree Aadya Dry Cleaners</h1>
+
+  <div class="menu-toggle" id="menuBtn">
+    <i class="fas fa-bars"></i>
+  </div>
+
+  <div class="nav-menu" id="navMenu">
+    <a href="#"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="order.html"><i class="fas fa-cart-plus"></i> Order Services</a> <!-- ✅ Added here -->
+    <a href="myorders.html"><i class="fas fa-tshirt"></i> My Orders</a>
+    <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+    <a href="#"><i class="fas fa-headset"></i> Support</a>
+    <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</header>
+
+<div class="main-content">
+  <h2 id="welcomeText">Welcome, Customer 👋</h2>
+
+  <div class="cards">
+    <div class="card">
+      <i class="fas fa-tshirt"></i>
+      <h3>Active Orders</h3>
+      <p>Track your ongoing laundry services.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-cart-plus"></i>
+      <h3>Order Services</h3>
+      <p>Select and place new laundry service orders.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-truck"></i>
+      <h3>Delivery Status</h3>
+      <p>Real-time updates for your pickups & deliveries.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-user"></i>
+      <h3>My Profile</h3>
+      <p>View your registered customer details.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-headset"></i>
+      <h3>Customer Support</h3>
+      <p>Need help? Reach our support anytime.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="social-icons">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</footer>
+
+<script>
+let currentUser;
+try {
+  currentUser = JSON.parse(localStorage.getItem('user'));
+} catch (error) {
+  console.error("User data corrupted:", error);
+  currentUser = null;
+}
+
+if (!currentUser || !currentUser.email) {
+  alert("Please login to access your dashboard.");
+  window.location.href = "login.html";
+} else {
+  document.getElementById("welcomeText").innerText = `Welcome, ${currentUser.name || "Customer"} 👋`;
+}
+
+// Toggle Menu
+document.getElementById('menuBtn').addEventListener('click', () => {
+  const menu = document.getElementById('navMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+});
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('user');
+  alert("You have been logged out successfully.");
+  window.location.href = 'login.html';
+});
+</script>
+
+</body>
+</html>

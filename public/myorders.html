@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>My Orders | Sree Aadya Dry Cleaners</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f4f8fb;
+  color: #333;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+header {
+  width: 100%;
+  padding: 25px 0;
+  text-align: center;
+  background-color: #f0f4ff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+.logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 110px;
+  width: auto;
+  object-fit: contain;
+}
+.site-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #42a5f5;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.header-btn {
+  position: absolute;
+  top: 40px;
+  right: 25px;
+  background: #0d47a1;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 0 8px rgba(13, 71, 161, 0.4);
+}
+.header-btn:hover {
+  background-color: #1565c0;
+  box-shadow: 0 0 12px rgba(21, 101, 192, 0.6);
+  transform: scale(1.05);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  padding: 170px 40px 60px;
+}
+h1 {
+  text-align: center;
+  color: #0d47a1;
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+/* ===== ORDER GRID ===== */
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  justify-content: center;
+}
+
+.order-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  padding: 15px;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.order-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.order-card h3 {
+  color: #0d47a1;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+.order-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* ===== STATUS BADGES ===== */
+.status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 5px;
+}
+.status.OrderPlaced { background: #ff9800; }
+.status.InCleaning { background: #2196f3; }
+.status.ReadyforDelivery { background: #3f51b5; }
+.status.OutforDelivery { background: #673ab7; }
+.status.Delivered { background: #4caf50; }
+.status.Cancelled { background: #e53935; }
+
+/* ===== BUTTONS ===== */
+.cancel-btn {
+  display: inline-block;
+  background: #e53935;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  margin-top: 8px;
+  transition: 0.3s;
+}
+.cancel-btn:hover { background: #c62828; }
+
+.add-order-btn {
+  display: block;
+  background: #0d47a1;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 40px auto 0;
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: center;
+  text-decoration: none;
+  width: fit-content;
+}
+.add-order-btn:hover { background: #1565c0; }
+
+.no-orders {
+  text-align: center;
+  font-size: 16px;
+  color: #555;
+  margin-top: 20px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .logo { height: 80px; }
+  .site-title { font-size: 22px; }
+  .header-btn { padding: 8px 15px; font-size: 13px; top: 25px; }
+  .container { padding: 140px 20px 40px; }
+  h1 { font-size: 22px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <img src="image/logo.png" alt="Sree Aadya Logo" class="logo">
+  <h1 class="site-title">Sree Aadya Dry Cleaners</h1>
+  <a href="dashboard.html" class="header-btn">Back to Dashboard</a>
+</header>
+
+<div class="container">
+  <h1>My Orders</h1>
+  <div id="ordersList" class="order-grid"></div>
+  <p id="noOrders" class="no-orders" style="display:none;">You don’t have any active orders yet.</p>
+
+  <a href="order.html" class="add-order-btn">+ Place New Order</a>
+</div>
+
+<script>
+// ===== FETCH USER ORDERS =====
+const ordersList = document.getElementById('ordersList');
+const noOrders = document.getElementById('noOrders');
+
+async function loadOrders() {
+  const userEmail = localStorage.getItem("userEmail") || "test@gmail.com";
+  try {
+    const res = await fetch(`http://localhost:5000/api/orders/${encodeURIComponent(userEmail)}`);
+    if (!res.ok) throw new Error("Failed to load orders");
+    const orders = await res.json();
+    displayOrders(orders);
+  } catch (err) {
+    console.error(err);
+    noOrders.style.display = 'block';
+  }
+}
+
+// ===== DISPLAY ORDERS =====
+function displayOrders(orders) {
+  ordersList.innerHTML = '';
+  if (!orders || orders.length === 0) {
+    noOrders.style.display = 'block';
+    return;
+  }
+  noOrders.style.display = 'none';
+  orders.forEach(order => {
+    const card = document.createElement('div');
+    card.className = 'order-card';
+    card.innerHTML = `
+      <h3>${order.service}</h3>
+      <p><b>Order ID:</b> ${order.orderId}</p>
+      <p><b>Quantity:</b> ${order.quantity}</p>
+      <p><b>Total Price:</b> ₹${order.totalPrice}</p>
+      <p><b>Date:</b> ${new Date(order.date).toLocaleString()}</p>
+      <span class="status ${order.status.replace(/\s/g,'')}">${order.status}</span><br>
+      ${order.status !== "Delivered" && order.status !== "Cancelled" ? 
+        `<button class="cancel-btn" onclick="cancelOrder('${order.orderId}')">Cancel Order</button>` : ""}
+    `;
+    ordersList.appendChild(card);
+  });
+}
+
+// ===== CANCEL ORDER =====
+async function cancelOrder(orderId) {
+  if (!confirm("Are you sure you want to cancel this order?")) return;
+  try {
+    const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, { method: 'DELETE' });
+    if (res.ok) {
+      alert("🗑️ Order cancelled successfully!");
+      loadOrders();
+    } else {
+      alert("⚠️ Failed to cancel order.");
+    }
+  } catch (err) {
+    console.error("Cancel error:", err);
+    alert("❌ Server error.");
+  }
+}
+
+loadOrders();
+</script>
+</body>
+</html>
