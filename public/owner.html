@@ -36,9 +36,31 @@ header i{font-size:22px}
 .card h2{font-size:28px;margin-bottom:5px}
 .card p{font-size:14px}
 
-/* Table */
-table{width:100%;border-collapse:collapse}
-th,td{padding:12px 15px;border-bottom:1px solid #eee;text-align:left}
+/* Tabs */
+.tabs {
+  display:flex;
+  justify-content:center;
+  margin-bottom:25px;
+  flex-wrap:wrap;
+}
+.tab-btn {
+  padding:10px 25px;
+  margin:5px 8px;
+  background:#e3f2fd;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+.tab-btn.active {
+  background:#0d47a1;
+  color:#fff;
+}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;table-layout:fixed;word-wrap:break-word;}
+th,td{padding:12px 10px;border-bottom:1px solid #eee;text-align:left;font-size:13px;}
 th{background:#0d47a1;color:#fff;text-transform:uppercase;font-size:13px}
 tr:hover{background:#f9fcff}
 
@@ -51,21 +73,49 @@ tr:hover{background:#f9fcff}
 .status.Delivered{background:#4caf50}
 
 /* Dropdown + Buttons */
-select.status-dropdown{
+select.status-dropdown,input.date-input,input.text-input{
   padding:6px 8px;border-radius:5px;border:1px solid #ccc;
-  font-size:13px;cursor:pointer;outline:none;
+  font-size:13px;outline:none;width:100%;
 }
+select.status-dropdown{cursor:pointer;}
+.update-btn{
+  background:#4caf50;color:#fff;border:none;
+  padding:7px 12px;border-radius:6px;font-size:13px;
+  cursor:pointer;transition:0.3s;width:100%;
+}
+.update-btn:hover{background:#43a047}
 .delete-btn{
   background:#e53935;color:#fff;border:none;
   padding:7px 12px;border-radius:6px;font-size:13px;
-  cursor:pointer;transition:0.3s;
+  cursor:pointer;transition:0.3s;width:100%;
 }
 .delete-btn:hover{background:#c62828}
 
+/* Social icons */
+.social-links {
+  text-align:center;
+  margin:40px 0 10px 0;
+}
+.social-links a {
+  color:#0d47a1;
+  margin:0 10px;
+  font-size:22px;
+  transition:0.3s;
+}
+.social-links a:hover {
+  color:#1565c0;
+}
+
 /* Footer */
 footer{
-  text-align:center;padding:15px;margin-top:30px;
+  text-align:center;padding:15px;margin-top:10px;
   background:#0d47a1;color:#fff;font-size:14px;
+}
+.hidden{display:none;}
+@media(max-width:768px){
+  .dashboard-summary{flex-direction:column;}
+  .tab-btn{width:100%;}
+  th,td{font-size:12px;padding:8px;}
 }
 </style>
 </head>
@@ -85,110 +135,188 @@ footer{
     <div class="card"><h2 id="deliveredOrders">0</h2><p>Delivered</p></div>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Customer</th>
-        <th>Service</th>
-        <th>Qty</th>
-        <th>Total</th>
-        <th>Status</th>
-        <th>Change</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody id="ordersTableBody">
-      <tr><td colspan="8" style="text-align:center;color:#888">Loading orders...</td></tr>
-    </tbody>
-  </table>
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('ordersSection')">Orders</button>
+    <button class="tab-btn" onclick="showTab('messagesSection')">Messages</button>
+    <button class="tab-btn" onclick="showTab('reviewsSection')">Reviews</button>
+  </div>
+
+  <!-- Orders Table -->
+  <div id="ordersSection">
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Service</th>
+          <th>Qty</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Expected Delivery</th>
+          <th>Pickup Person</th>
+          <th>Update</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="ordersTableBody">
+        <tr><td colspan="10" style="text-align:center;color:#888">Loading orders...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Messages Table -->
+  <div id="messagesSection" class="hidden">
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Message</th><th>Date</th></tr>
+      </thead>
+      <tbody id="messagesTableBody">
+        <tr><td colspan="4" style="text-align:center;color:#888">Loading messages...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Reviews Table -->
+  <div id="reviewsSection" class="hidden">
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Rating</th><th>Review</th><th>Date</th></tr>
+      </thead>
+      <tbody id="reviewsTableBody">
+        <tr><td colspan="4" style="text-align:center;color:#888">Loading reviews...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="social-links">
+  <a href="#"><i class="fab fa-facebook-f"></i></a>
+  <a href="#"><i class="fab fa-instagram"></i></a>
+  <a href="#"><i class="fab fa-whatsapp"></i></a>
+  <a href="#"><i class="fab fa-twitter"></i></a>
 </div>
 
 <footer>
   © 2025 Sree Aadya Dry Cleaners | Owner Management Portal
 </footer>
 
+<script type="module">
+// Firebase initialization
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDcHCOVKKyq4tL9Wvp28hEd-W9Vrl5PBRA",
+  authDomain: "sree-aadya-dry-cleaners-ec791.firebaseapp.com",
+  databaseURL: "https://sree-aadya-dry-cleaners-ec791-default-rtdb.firebaseio.com",
+  projectId: "sree-aadya-dry-cleaners-ec791",
+  storageBucket: "sree-aadya-dry-cleaners-ec791.firebasestorage.app",
+  messagingSenderId: "726289161499",
+  appId: "1:726289161499:web:0fbf79769b4a66b9ee07be"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Load messages
+onValue(ref(db,"contactMessages"), snapshot=>{
+  const table=document.getElementById("messagesTableBody");
+  table.innerHTML="";
+  const data=snapshot.val();
+  if(!data){table.innerHTML="<tr><td colspan='4' style='text-align:center;color:#888'>No messages found</td></tr>";return;}
+  Object.values(data).reverse().forEach(m=>{
+    table.innerHTML+=`<tr><td>${m.name}</td><td>${m.email}</td><td>${m.message}</td><td>${m.date}</td></tr>`;
+  });
+});
+
+// Load reviews
+onValue(ref(db,"reviews"), snapshot=>{
+  const table=document.getElementById("reviewsTableBody");
+  table.innerHTML="";
+  const data=snapshot.val();
+  if(!data){table.innerHTML="<tr><td colspan='4' style='text-align:center;color:#888'>No reviews found</td></tr>";return;}
+  Object.values(data).reverse().forEach(r=>{
+    table.innerHTML+=`<tr><td>${r.name}</td><td>${r.rating||"⭐️⭐️⭐️⭐️⭐️"}</td><td>${r.review}</td><td>${r.date}</td></tr>`;
+  });
+});
+</script>
+
 <script>
-async function loadOrders() {
-  try {
-    const res = await fetch("http://localhost:5000/api/orders");
-    const orders = await res.json();
+// Backend Orders
+async function loadOrders(){
+  try{
+    const res=await fetch("http://localhost:5000/api/orders");
+    const orders=await res.json();
     displayOrders(orders);
     updateStats(orders);
-  } catch (err) {
-    console.error("Error loading orders:", err);
-  }
+  }catch(err){console.error(err);}
 }
 
-function displayOrders(orders) {
-  const tbody = document.getElementById("ordersTableBody");
-  tbody.innerHTML = "";
-  if (!orders || orders.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center">No orders found</td></tr>`;
-    return;
-  }
-
-  orders.forEach(order => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
+function displayOrders(orders){
+  const tbody=document.getElementById("ordersTableBody");
+  tbody.innerHTML="";
+  if(!orders||orders.length===0){tbody.innerHTML=`<tr><td colspan="10" style="text-align:center">No orders found</td></tr>`;return;}
+  orders.forEach(order=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
       <td>${order.orderId}</td>
-      <td>${order.userEmail || "N/A"}</td>
+      <td>${order.userEmail||"N/A"}</td>
       <td>${order.service}</td>
-      <td>${order.quantity || 1}</td>
-      <td>₹${order.totalPrice || order.price}</td>
-      <td><span class="status ${order.status.replace(/\s/g,'')}">${order.status}</span></td>
-      <td>
-        <select class="status-dropdown" onchange="changeStatus('${order.orderId}', this.value)">
-          <option value="Order Placed" ${order.status === "Order Placed" ? "selected":""}>Order Placed</option>
-          <option value="In Cleaning" ${order.status === "In Cleaning" ? "selected":""}>In Cleaning</option>
-          <option value="Ready for Delivery" ${order.status === "Ready for Delivery" ? "selected":""}>Ready for Delivery</option>
-          <option value="Out for Delivery" ${order.status === "Out for Delivery" ? "selected":""}>Out for Delivery</option>
-          <option value="Delivered" ${order.status === "Delivered" ? "selected":""}>Delivered</option>
-        </select>
-      </td>
+      <td>${order.quantity||1}</td>
+      <td>₹${order.totalPrice||order.price}</td>
+      <td><select class="status-dropdown" id="status-${order.orderId}">
+        <option value="Order Placed" ${order.status==="Order Placed"?"selected":""}>Order Placed</option>
+        <option value="In Cleaning" ${order.status==="In Cleaning"?"selected":""}>In Cleaning</option>
+        <option value="Ready for Delivery" ${order.status==="Ready for Delivery"?"selected":""}>Ready for Delivery</option>
+        <option value="Out for Delivery" ${order.status==="Out for Delivery"?"selected":""}>Out for Delivery</option>
+        <option value="Delivered" ${order.status==="Delivered"?"selected":""}>Delivered</option>
+      </select></td>
+      <td><input type="date" class="date-input" id="date-${order.orderId}" value="${order.expectedDate||""}"></td>
+      <td><input type="text" class="text-input" id="pickup-${order.orderId}" value="${order.pickupPerson||""}" placeholder="Enter name"></td>
+      <td><button class="update-btn" onclick="updateOrder('${order.orderId}')">Save</button></td>
       <td><button class="delete-btn" onclick="deleteOrder('${order.orderId}')">Delete</button></td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-async function changeStatus(orderId, status) {
-  try {
-    const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
-      method: "PUT",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ status })
+async function updateOrder(orderId){
+  const status=document.getElementById(`status-${orderId}`).value;
+  const expectedDate=document.getElementById(`date-${orderId}`).value;
+  const pickupPerson=document.getElementById(`pickup-${orderId}`).value;
+  try{
+    const res=await fetch(`http://localhost:5000/api/orders/${orderId}`,{
+      method:"PUT",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({status,expectedDate,pickupPerson})
     });
-    if (res.ok) {
-      alert("✅ Status updated successfully!");
-      loadOrders();
-    } else {
-      alert("⚠️ Failed to update status");
-    }
-  } catch (err) {
-    console.error(err);
-  }
+    if(res.ok){alert("✅ Order updated successfully!");loadOrders();}
+    else alert("⚠️ Failed to update order");
+  }catch(err){console.error(err);}
 }
 
-async function deleteOrder(orderId) {
-  if (!confirm("Delete this order?")) return;
-  try {
-    const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, { method: "DELETE" });
-    if (res.ok) {
-      alert("🗑️ Order deleted successfully!");
-      loadOrders();
-    } else alert("Failed to delete");
-  } catch (err) {
-    console.error(err);
-  }
+async function deleteOrder(orderId){
+  if(!confirm("Delete this order?")) return;
+  try{
+    const res=await fetch(`http://localhost:5000/api/orders/${orderId}`,{method:"DELETE"});
+    if(res.ok){alert("🗑️ Order deleted successfully!");loadOrders();}
+    else alert("Failed to delete");
+  }catch(err){console.error(err);}
 }
 
-function updateStats(orders) {
-  document.getElementById("totalOrders").textContent = orders.length || 0;
-  document.getElementById("pendingOrders").textContent = orders.filter(o => o.status === "Order Placed").length || 0;
-  document.getElementById("inProgressOrders").textContent = orders.filter(o => o.status === "In Cleaning").length || 0;
-  document.getElementById("readyOrders").textContent = orders.filter(o => o.status === "Ready for Delivery").length || 0;
-  document.getElementById("deliveredOrders").textContent = orders.filter(o => o.status === "Delivered").length || 0;
+function updateStats(orders){
+  document.getElementById("totalOrders").textContent=orders.length||0;
+  document.getElementById("pendingOrders").textContent=orders.filter(o=>o.status==="Order Placed").length||0;
+  document.getElementById("inProgressOrders").textContent=orders.filter(o=>o.status==="In Cleaning").length||0;
+  document.getElementById("readyOrders").textContent=orders.filter(o=>o.status==="Ready for Delivery").length||0;
+  document.getElementById("deliveredOrders").textContent=orders.filter(o=>o.status==="Delivered").length||0;
+}
+
+function showTab(sectionId){
+  document.querySelectorAll('.tab-btn').forEach(btn=>btn.classList.remove('active'));
+  document.querySelectorAll('#ordersSection,#messagesSection,#reviewsSection').forEach(sec=>sec.classList.add('hidden'));
+  event.target.classList.add('active');
+  document.getElementById(sectionId).classList.remove('hidden');
 }
 
 loadOrders();

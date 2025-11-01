@@ -138,6 +138,10 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
 
     const data = await res.json();
     if (res.ok) {
+      // ✅ Store logged-in user for dashboard
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // Show success popup
       document.getElementById("successPopup").style.display = "flex";
       setTimeout(() => window.location.href = "dashboard.html", 2500);
     } else alert(data.message || "Signup failed.");

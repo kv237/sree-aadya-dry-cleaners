@@ -13,15 +13,12 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-
 body {
   background: #f4f8fb;
   color: #333;
   min-height: 100vh;
   overflow-x: hidden;
 }
-
-/* ===== HEADER ===== */
 header {
   width: 100%;
   padding: 25px 0;
@@ -67,7 +64,6 @@ header {
   transform: scale(1.05);
 }
 
-/* ===== CONTAINER ===== */
 .container {
   padding: 170px 40px 60px;
 }
@@ -79,14 +75,12 @@ h1 {
   margin-bottom: 30px;
 }
 
-/* ===== ORDER GRID ===== */
 .order-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 25px;
   justify-content: center;
 }
-
 .order-card {
   background: #fff;
   border-radius: 16px;
@@ -112,27 +106,8 @@ h1 {
   margin-bottom: 6px;
 }
 
-/* ===== STATUS BADGES ===== */
-.status {
+.cancel-btn, .track-btn {
   display: inline-block;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-  margin-top: 5px;
-}
-.status.OrderPlaced { background: #ff9800; }
-.status.InCleaning { background: #2196f3; }
-.status.ReadyforDelivery { background: #3f51b5; }
-.status.OutforDelivery { background: #673ab7; }
-.status.Delivered { background: #4caf50; }
-.status.Cancelled { background: #e53935; }
-
-/* ===== BUTTONS ===== */
-.cancel-btn {
-  display: inline-block;
-  background: #e53935;
   color: #fff;
   padding: 8px 14px;
   border-radius: 6px;
@@ -143,7 +118,11 @@ h1 {
   margin-top: 8px;
   transition: 0.3s;
 }
+.cancel-btn { background: #e53935; }
 .cancel-btn:hover { background: #c62828; }
+
+.track-btn { background: #1565c0; margin-left: 5px; }
+.track-btn:hover { background: #0d47a1; }
 
 .add-order-btn {
   display: block;
@@ -170,7 +149,6 @@ h1 {
   margin-top: 20px;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
   .logo { height: 80px; }
   .site-title { font-size: 22px; }
@@ -196,7 +174,26 @@ h1 {
   <a href="order.html" class="add-order-btn">+ Place New Order</a>
 </div>
 
-<script>
+<script type="module">
+// ===== IMPORT FIREBASE =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+// ===== FIREBASE CONFIG =====
+const firebaseConfig = {
+  apiKey: "AIzaSyDcHCOVKKyq4tL9Wvp28hEd-W9Vrl5PBRA",
+  authDomain: "sree-aadya-dry-cleaners-ec791.firebaseapp.com",
+  databaseURL: "https://sree-aadya-dry-cleaners-ec791-default-rtdb.firebaseio.com",
+  projectId: "sree-aadya-dry-cleaners-ec791",
+  storageBucket: "sree-aadya-dry-cleaners-ec791.firebasestorage.app",
+  messagingSenderId: "726289161499",
+  appId: "1:726289161499:web:0fbf79769b4a66b9ee07be",
+  measurementId: "G-ZL08672KFF"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 // ===== FETCH USER ORDERS =====
 const ordersList = document.getElementById('ordersList');
 const noOrders = document.getElementById('noOrders');
@@ -208,10 +205,27 @@ async function loadOrders() {
     if (!res.ok) throw new Error("Failed to load orders");
     const orders = await res.json();
     displayOrders(orders);
+    await saveOrdersToFirebase(orders, userEmail); // ✅ Sync to Firebase
   } catch (err) {
     console.error(err);
     noOrders.style.display = 'block';
   }
+}
+
+// ===== SAVE ORDERS TO FIREBASE =====
+async function saveOrdersToFirebase(orders, userEmail) {
+  for (const order of orders) {
+    const orderRef = ref(db, "orders/" + order.orderId);
+    await set(orderRef, {
+      email: userEmail,
+      service: order.service,
+      quantity: order.quantity,
+      totalPrice: order.totalPrice,
+      date: order.date,
+      status: order.status || "Order Placed"
+    });
+  }
+  console.log("✅ Orders synced to Firebase");
 }
 
 // ===== DISPLAY ORDERS =====
@@ -231,16 +245,16 @@ function displayOrders(orders) {
       <p><b>Quantity:</b> ${order.quantity}</p>
       <p><b>Total Price:</b> ₹${order.totalPrice}</p>
       <p><b>Date:</b> ${new Date(order.date).toLocaleString()}</p>
-      <span class="status ${order.status.replace(/\s/g,'')}">${order.status}</span><br>
       ${order.status !== "Delivered" && order.status !== "Cancelled" ? 
-        `<button class="cancel-btn" onclick="cancelOrder('${order.orderId}')">Cancel Order</button>` : ""}
+        `<button class="cancel-btn" onclick="cancelOrder('${order.orderId}')">Cancel</button>` : ""}
+      <button class="track-btn" onclick="trackOrder('${order.orderId}')">Track Order</button>
     `;
     ordersList.appendChild(card);
   });
 }
 
 // ===== CANCEL ORDER =====
-async function cancelOrder(orderId) {
+window.cancelOrder = async function(orderId) {
   if (!confirm("Are you sure you want to cancel this order?")) return;
   try {
     const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, { method: 'DELETE' });
@@ -256,6 +270,13 @@ async function cancelOrder(orderId) {
   }
 }
 
+// ===== TRACK ORDER =====
+window.trackOrder = function(orderId) {
+  localStorage.setItem("trackOrderId", orderId);
+  window.location.href = "delivery.html";
+}
+
+// ===== INITIAL LOAD =====
 loadOrders();
 </script>
 </body>

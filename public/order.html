@@ -175,6 +175,45 @@ h2 {
   font-weight: bold;
 }
 
+/* ===== SOCIAL MEDIA ===== */
+.social-media {
+  background: transparent;
+  text-align: center;
+  padding: 40px 20px 50px;
+  margin-top: 60px;
+}
+.social-media h3 {
+  color: #007bff;
+  font-size: 1.6rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 45px;
+}
+.social-icons a {
+  font-size: 2.8rem;
+  color: #007bff;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 0 transparent;
+}
+.social-icons a:hover {
+  transform: scale(1.15);
+  text-shadow: 0 0 12px rgba(0, 123, 255, 0.6);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #007bff;
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  font-size: 0.95rem;
+  margin-top: 0;
+}
+
 /* ===== TOAST ===== */
 .toast {
   position: fixed;
@@ -198,6 +237,8 @@ h2 {
   .logo-container img { height: 90px; }
   .container { padding: 20px; }
   .cart-btn { width: 55px; height: 55px; font-size: 22px; }
+  .social-icons { gap: 25px; }
+  .social-icons a { font-size: 2rem; }
 }
 </style>
 </head>
@@ -218,6 +259,22 @@ h2 {
   <h2>Choose Your Laundry Service</h2>
   <div class="services" id="serviceList"></div>
 </div>
+
+<!-- Social Media Section -->
+<section class="social-media">
+  <h3>Connect With Us</h3>
+  <div class="social-icons">
+    <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+    <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://wa.me/yourwhatsapplink" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <a href="https://maps.google.com/?q=Sree Aadya Dry Cleaners" target="_blank" title="Location"><i class="fas fa-map-marker-alt"></i></a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  © 2025 Sree Aadya Dry Cleaners. All Rights Reserved.
+</footer>
 
 <!-- Floating Cart -->
 <button class="cart-btn" onclick="window.location.href='myorders.html'">

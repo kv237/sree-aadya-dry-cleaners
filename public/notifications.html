@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications | Sree Aadya Dry Cleaners</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body { font-family: 'Poppins', sans-serif; margin:0; background:#f5f6fa; color:#333; }
+header { background:#1e3d59; color:#fff; padding:20px 30px; }
+header h1 { margin:0; font-weight:600; }
+.main-container { display:flex; min-height:90vh; }
+.sidebar { width:250px; background:#2c3e50; padding:20px; color:#fff; }
+.sidebar h2 { font-size:1.2rem; margin-bottom:20px; font-weight:500; }
+.sidebar a { display:block; color:#fff; text-decoration:none; margin:12px 0; font-weight:500; }
+.sidebar a:hover { color:#1e3d59; }
+.sidebar a i { margin-right:10px; }
+.content { flex:1; padding:30px; background:#f5f6fa; }
+.section h2 { font-weight:600; margin-bottom:15px; color:#1e3d59; border-bottom:2px solid #1e3d59; display:inline-block; padding-bottom:5px; }
+.notifications p { margin:10px 0; font-size:0.95rem; background:white; padding:10px 15px; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+.notifications i { color:#1e3d59; margin-right:8px; }
+button { margin-top:10px; padding:10px 18px; border:none; border-radius:5px; background:#1e3d59; color:#fff; cursor:pointer; font-weight:500; }
+button:hover { background:#16314a; }
+@media(max-width:900px){ .main-container { flex-direction:column; } .sidebar { width:100%; } }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Sree Aadya Dry Cleaners</h1>
+</header>
+
+<div class="main-container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Account Menu</h2>
+        <a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+        <a href="orders.html"><i class="fa-solid fa-box"></i> Orders</a>
+        <a href="delivery.html"><i class="fa-solid fa-truck-fast"></i> Delivery Status</a>
+        <a href="notifications.html"><i class="fa-solid fa-bell"></i> Notifications</a>
+        <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="section">
+            <h2>Notifications</h2>
+            <div class="notifications" id="notificationsList">
+                <p>Loading notifications...</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+<script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDcHCOVKKyq4tL9Wvp28hEd-W9Vrl5PBRA",
+      authDomain: "sree-aadya-dry-cleaners-ec791.firebaseapp.com",
+      databaseURL: "https://sree-aadya-dry-cleaners-ec791-default-rtdb.firebaseio.com",
+      projectId: "sree-aadya-dry-cleaners-ec791",
+      storageBucket: "sree-aadya-dry-cleaners-ec791.firebasestorage.app",
+      messagingSenderId: "726289161499",
+      appId: "1:726289161499:web:0fbf79769b4a66b9ee07be",
+      measurementId: "G-ZL08672KFF"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Reference to notifications folder
+    const notificationsRef = db.ref('notifications');
+
+    // Real-time listener for new notifications
+    notificationsRef.on('value', snapshot => {
+        const notificationsList = document.getElementById('notificationsList');
+        notificationsList.innerHTML = ''; // clear existing
+
+        const data = snapshot.val();
+        if(data){
+            // Reverse order to show newest on top
+            Object.keys(data).reverse().forEach(key => {
+                const notification = data[key];
+                const p = document.createElement('p');
+                p.innerHTML = `<i class="fa-solid fa-bell"></i> ${notification.message} <span style="font-size:0.85rem; color:gray;">(${notification.date})</span>`;
+                notificationsList.appendChild(p);
+            });
+        } else {
+            notificationsList.innerHTML = '<p>No notifications yet.</p>';
+        }
+    });
+
+    // Optional: add a test notification if folder is empty
+    // Uncomment to create the first notification
+    // const testNotif = notificationsRef.push();
+    // testNotif.set({
+    //     message: "Welcome! This is your first notification from admin.",
+    //     date: new Date().toLocaleString()
+    // });
+</script>
+
+</body>
+</html>

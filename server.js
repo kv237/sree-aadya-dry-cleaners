@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
   notificationsEnabled: { type: Boolean, default: true },
   darkMode: { type: Boolean, default: false },
   joined: { type: Date, default: Date.now },
+  address: String,
+  city: String,
+  pincode: String,
+  landmark: String,
 });
 const User = mongoose.model("User", userSchema);
 
@@ -298,6 +302,67 @@ app.delete("/api/orders/:orderId", async (req, res) => {
     res.json({ message: "Order deleted" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting order", error: error.message });
+  }
+});
+
+// ---------- Profile & Address Update ----------
+app.post("/api/updateUser", async (req, res) => {
+  try {
+    const { uid, name, email, phone, joinedDate, address, city, pincode, landmark } = req.body;
+
+    // ✅ Update MongoDB
+    const user = await User.findOneAndUpdate(
+      { email },
+      {
+        name,
+        phone,
+        joined: joinedDate ? new Date(joinedDate) : undefined,
+        address,
+        city,
+        pincode,
+        landmark,
+      },
+      { new: true, upsert: true }
+    );
+
+    // ✅ Sync Firebase
+    if (firebaseDb) {
+      await firebaseDb.ref(`users/${uid}`).update({
+        name,
+        email,
+        phone,
+        joinedDate,
+        address,
+        city,
+        pincode,
+        landmark,
+      });
+    }
+
+    res.json({ message: "✅ User data updated successfully", user });
+  } catch (error) {
+    console.error("❌ Error updating user:", error.message);
+    res.status(500).json({ message: "Error updating user", error: error.message });
+  }
+});
+
+// ---------- Delete User ----------
+app.delete("/api/deleteUser", async (req, res) => {
+  try {
+    const { uid, email } = req.body;
+
+    // Delete from MongoDB
+    await User.findOneAndDelete({ email });
+
+    // Delete from Firebase
+    if (firebaseDb) {
+      await firebaseDb.ref(`users/${uid}`).remove();
+    }
+
+    res.json({ message: "✅ User deleted successfully" });
+  } catch (error) {
+    console.error("❌ Error deleting user:", error.message);
+    res.status(500).json({ message: "Error deleting user", error: error.message });
   }
 });
 

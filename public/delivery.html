@@ -12,25 +12,106 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
   body { background: #f8f9fc; color: #333; }
-  header { background: #003366; color: #fff; text-align: center; padding: 18px 10px; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.5px; }
-  .status-container { max-width: 700px; background: #fff; margin: 50px auto; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+
+  header {
+    background: #003366; color: #fff; display: flex;
+    align-items: center; justify-content: space-between;
+    padding: 12px 20px;
+  }
+  header img { height: 160px; width: auto; }
+  .header-title { flex: 1; text-align: center; font-size: 1.5rem; font-weight: 600; }
+  .back-btn {
+    background: #fff; color: #003366; border: none;
+    padding: 8px 15px; font-size: 0.95rem;
+    border-radius: 8px; cursor: pointer; transition: 0.3s;
+  }
+  .back-btn:hover { background: #dce6f7; }
+
+  .status-container {
+    max-width: 700px; background: #fff; margin: 30px auto;
+    padding: 40px 30px; border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
   .status-header { text-align: center; margin-bottom: 35px; }
   .status-header h2 { color: #003366; font-size: 1.8rem; font-weight: 600; }
   .order-id { color: #666; font-size: 0.95rem; margin-top: 5px; }
-  .progressbar { display: flex; justify-content: space-between; position: relative; margin: 40px 0 60px; }
-  .progressbar::before { content: ""; position: absolute; top: 20px; left: 12%; width: 76%; height: 4px; background: #d3d3d3; z-index: 0; }
+
+  .progressbar {
+    display: flex; justify-content: space-between;
+    position: relative; margin: 40px 0 60px;
+  }
+  .progressbar::before {
+    content: ""; position: absolute; top: 20px; left: 12%;
+    width: 76%; height: 4px; background: #d3d3d3; z-index: 0;
+  }
   .step { text-align: center; position: relative; width: 20%; z-index: 1; }
-  .step i { width: 40px; height: 40px; background: #d3d3d3; color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 8px; transition: all 0.3s ease; }
+  .step i {
+    width: 40px; height: 40px; background: #d3d3d3; color: #fff;
+    border-radius: 50%; display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 8px; transition: all 0.3s ease;
+  }
   .step.active i { background: #003366; transform: scale(1.1); }
   .step p { font-size: 0.9rem; color: #555; }
-  .tracking-info { background: #eef3fa; padding: 20px; border-radius: 12px; font-size: 0.95rem; line-height: 1.6; }
+
+  .tracking-info {
+    background: #eef3fa; padding: 20px;
+    border-radius: 12px; font-size: 0.95rem;
+    line-height: 1.6; margin-bottom: 30px;
+  }
   .tracking-info span { color: #003366; font-weight: 600; }
-  footer { text-align: center; color: #888; font-size: 0.85rem; margin-top: 40px; }
+
+  .track-box {
+    background: #ffffff; border: 1px solid #dde4ee;
+    border-radius: 12px; padding: 25px; text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .track-box h3 { color: #003366; margin-bottom: 15px; font-size: 1.3rem; }
+  .track-box input {
+    padding: 10px 15px; width: 70%; border: 1px solid #ccc;
+    border-radius: 8px; font-size: 1rem;
+  }
+  .track-box button {
+    background: #003366; color: white; border: none;
+    padding: 10px 18px; border-radius: 8px; font-size: 1rem;
+    cursor: pointer; margin-left: 10px; transition: 0.3s;
+  }
+  .track-box button:hover { background: #00224f; }
+
+  .popup {
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+    justify-content: center; align-items: center; z-index: 999;
+  }
+  .popup-content {
+    background: white; padding: 25px 40px; border-radius: 12px;
+    text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .popup-content h3 { color: #003366; margin-bottom: 15px; }
+  .popup-content button {
+    background: #003366; color: white; border: none;
+    padding: 10px 20px; border-radius: 8px; cursor: pointer;
+  }
+
+  footer {
+    text-align: center; color: #888; font-size: 0.85rem;
+    margin-top: 40px; padding: 20px;
+  }
+  .social-icons { margin-bottom: 12px; }
+  .social-icons a {
+    color: #003366; margin: 0 10px; font-size: 1.8rem;
+    transition: 0.3s;
+  }
+  .social-icons a:hover { color: #0059b3; transform: scale(1.1); }
 </style>
 </head>
 <body>
 
-<header>Sree Aadya Dry Cleaners</header>
+<header>
+  <img src="image/logo.png" alt="Sree Aadya Logo">
+  <div class="header-title">Sree Aadya Dry Cleaners</div>
+  <button class="back-btn" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+</header>
 
 <div class="status-container">
   <div class="status-header">
@@ -47,62 +128,94 @@
   </div>
 
   <div class="tracking-info">
-    <p><span>Current Status:</span> <span id="currentStatus">Loading...</span></p>
-    <p><span>Expected Delivery:</span> <span id="expectedDelivery">Loading...</span></p>
-    <p><span>Pickup Person:</span> <span id="pickupPerson">Loading...</span></p>
+    <p><span>Current Status:</span> <span id="currentStatus">—</span></p>
+    <p><span>Expected Delivery:</span> <span id="expectedDelivery">—</span></p>
+    <p><span>Pickup Person:</span> <span id="pickupPerson">—</span></p>
+  </div>
+
+  <div class="track-box">
+    <h3>Track My Order</h3>
+    <input type="text" id="manualOrderId" placeholder="Enter your Order ID (e.g. AADYA-00001)">
+    <button id="trackBtn">Track</button>
+    <p id="errorMsg" style="color:red; margin-top:10px;"></p>
+  </div>
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h3 id="popupMsg">Order not found</h3>
+    <button onclick="closePopup()">OK</button>
   </div>
 </div>
 
 <footer>
-  &copy; 2025 Sree Aadya Dry Cleaners | All Rights Reserved
+  <div class="social-icons">
+    <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://wa.me/yourwhatsapplink" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+  </div>
+  <p>© 2025 Sree Aadya Dry Cleaners | All Rights Reserved</p>
 </footer>
 
-<!-- ✅ Firebase Integration -->
 <script type="module">
-  // ✅ Import Firebase directly from CDN
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+  import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-  // ✅ Your Firebase configuration (replace these with your own Firebase values)
   const firebaseConfig = {
-   apiKey: "AIzaSyDcHCOVKKyq4tL9Wvp28hEd-W9Vrl5PBRA",
-  authDomain: "sree-aadya-dry-cleaners-ec791.firebaseapp.com",
-  databaseURL: "https://sree-aadya-dry-cleaners-ec791-default-rtdb.firebaseio.com",
-  projectId: "sree-aadya-dry-cleaners-ec791",
-  storageBucket: "sree-aadya-dry-cleaners-ec791.firebasestorage.app",
-  messagingSenderId: "726289161499",
-  appId: "1:726289161499:web:0fbf79769b4a66b9ee07be",
-  measurementId: "G-ZL08672KFF"
+    apiKey: "AIzaSyDcHCOVKKyq4tL9Wvp28hEd-W9Vrl5PBRA",
+    authDomain: "sree-aadya-dry-cleaners-ec791.firebaseapp.com",
+    databaseURL: "https://sree-aadya-dry-cleaners-ec791-default-rtdb.firebaseio.com",
+    projectId: "sree-aadya-dry-cleaners-ec791",
+    storageBucket: "sree-aadya-dry-cleaners-ec791.firebasestorage.app",
+    messagingSenderId: "726289161499",
+    appId: "1:726289161499:web:0fbf79769b4a66b9ee07be",
+    measurementId: "G-ZL08672KFF"
   };
 
-  // ✅ Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  // ✅ Fetch Order ID from URL (e.g., ?id=AADYA-00001)
-  const params = new URLSearchParams(window.location.search);
-  const orderId = params.get("id") || "";
-
-  const orderIdElement = document.getElementById("orderId");
+  const userEmail = localStorage.getItem("userEmail");
+  const orderIdEl = document.getElementById("orderId");
   const currentStatusEl = document.getElementById("currentStatus");
   const expectedEl = document.getElementById("expectedDelivery");
   const pickupEl = document.getElementById("pickupPerson");
+  const errorMsg = document.getElementById("errorMsg");
 
-  if (!orderId) {
-    orderIdElement.textContent = "Missing ID";
-    currentStatusEl.textContent = "Please provide ?id=ORDER_ID in the URL";
-  } else {
-    orderIdElement.textContent = "#" + orderId;
+  const params = new URLSearchParams(window.location.search);
+  let orderId = params.get("trackOrderId") || localStorage.getItem("trackOrderId") || "";
 
-    // ✅ Reference to order in Firebase
-    const orderRef = ref(db, "orders/" + orderId);
-    onValue(orderRef, (snapshot) => {
+  const showPopup = (msg) => {
+    document.getElementById("popupMsg").textContent = msg;
+    document.getElementById("popup").style.display = "flex";
+  };
+  window.closePopup = () => document.getElementById("popup").style.display = "none";
+
+  async function fetchOrder(id) {
+    if (!id) {
+      errorMsg.textContent = "Please enter a valid Order ID.";
+      return;
+    }
+
+    orderIdEl.textContent = "#" + id;
+    const orderRef = ref(db, "orders/" + id);
+
+    try {
+      const snapshot = await get(orderRef);
+      if (!snapshot.exists()) {
+        showPopup("❌ No order found with this ID.");
+        resetDisplay();
+        return;
+      }
+
       const order = snapshot.val();
 
-      if (!order) {
-        currentStatusEl.textContent = "Order not found";
-        expectedEl.textContent = "—";
-        pickupEl.textContent = "—";
+      // ✅ Change this if your database uses different field like "userEmail" or "customerEmail"
+      const orderEmail = order.email || order.userEmail || order.customerEmail;
+
+      if (orderEmail?.toLowerCase() !== userEmail?.toLowerCase()) {
+        showPopup("🚫 This order doesn’t belong to your account.");
+        resetDisplay();
         return;
       }
 
@@ -110,14 +223,39 @@
       expectedEl.textContent = order.expectedDelivery || "Not provided";
       pickupEl.textContent = order.pickupPerson || "Not assigned";
 
-      // ✅ Update progress steps
       const steps = ["Order Placed", "In Cleaning", "Ready for Delivery", "Out for Delivery", "Delivered"];
       const idx = Math.max(0, steps.indexOf(order.status));
       for (let i = 1; i <= 5; i++) {
         document.getElementById("step" + i).classList.toggle("active", i - 1 <= idx);
       }
-    });
+    } catch (err) {
+      console.error("Error fetching order:", err);
+      showPopup("⚠️ Something went wrong while fetching your order.");
+    }
   }
+
+  function resetDisplay() {
+    currentStatusEl.textContent = "—";
+    expectedEl.textContent = "—";
+    pickupEl.textContent = "—";
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById("step" + i).classList.remove("active");
+    }
+  }
+
+  fetchOrder(orderId);
+
+  document.getElementById("trackBtn").addEventListener("click", () => {
+    const manualId = document.getElementById("manualOrderId").value.trim();
+    if (!manualId) {
+      errorMsg.textContent = "Please enter an Order ID.";
+      return;
+    }
+    errorMsg.textContent = "";
+    localStorage.setItem("trackOrderId", manualId);
+    fetchOrder(manualId);
+  });
 </script>
+
 </body>
 </html>

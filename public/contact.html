@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact Us | Sree Aadya Dry Cleaners</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+* {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body {
+  background: #f4f8fb;
+  color: #333;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+header {
+  width: 100%;
+  padding: 25px 0;
+  text-align: center;
+  background-color: #f0f4ff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 1000;
+}
+.logo {
+  position: absolute;
+  top: 10px; left: 10px;
+  height: 110px;
+  object-fit: contain;
+}
+.site-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #42a5f5;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.header-btn {
+  position: absolute;
+  top: 40px; right: 25px;
+  background: #0d47a1;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 0 8px rgba(13, 71, 161, 0.4);
+}
+.header-btn:hover {
+  background-color: #1565c0;
+  transform: scale(1.05);
+}
+
+/* ===== MAIN SECTION ===== */
+.container {
+  padding: 170px 30px 60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+.contact-box, .info-box {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 30px;
+  width: 400px;
+  max-width: 100%;
+}
+.contact-box h2 {
+  text-align: center;
+  color: #0d47a1;
+  margin-bottom: 20px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+input, textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+input:focus, textarea:focus {
+  border-color: #42a5f5;
+}
+textarea {
+  resize: none;
+  height: 120px;
+}
+button {
+  background: #0d47a1;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background: #1565c0;
+  transform: translateY(-2px);
+}
+
+/* ===== CONTACT INFO ===== */
+.info-box h3 {
+  color: #0d47a1;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.info-item i {
+  color: #1565c0;
+  margin-right: 12px;
+  font-size: 18px;
+}
+.info-item p {
+  font-size: 15px;
+  color: #333;
+}
+
+/* ===== MAP ===== */
+.map {
+  width: 100%;
+  height: 300px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-top: 40px;
+  overflow: hidden;
+}
+
+/* ===== SOCIAL SECTION ABOVE FOOTER ===== */
+.social-section {
+  background: #e3f2fd;
+  text-align: center;
+  padding: 25px 10px;
+  margin-top: 60px;
+}
+.social-section h3 {
+  color: #0d47a1;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.social-icons a {
+  color: #0d47a1;
+  font-size: 24px;
+  transition: 0.3s;
+}
+.social-icons a:hover {
+  color: #1565c0;
+  transform: scale(1.2);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #0d47a1;
+  color: white;
+  text-align: center;
+  padding: 20px 20px;
+}
+footer p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .logo { height: 80px; }
+  .site-title { font-size: 22px; }
+  .header-btn { padding: 8px 15px; font-size: 13px; top: 25px; }
+  .container { padding: 140px 20px 40px; flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <img src="image/logo.png" alt="Sree Aadya Logo" class="logo" />
+  <h1 class="site-title">Sree Aadya Dry Cleaners</h1>
+  <a href="dashboard.html" class="header-btn">Back to Dashboard</a>
+</header>
+
+<div class="container">
+  <!-- Contact Form -->
+  <div class="contact-box">
+    <h2>Get In Touch</h2>
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="Your Name" required />
+      <input type="email" id="email" placeholder="Your Email" required />
+      <textarea id="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+  <!-- Contact Info -->
+  <div class="info-box">
+    <h3>Contact Information</h3>
+    <div class="info-item">
+      <i class="fas fa-map-marker-alt"></i>
+      <p>Plot No. 12, Sree Aadya Nagar, Hyderabad, Telangana - 500072</p>
+    </div>
+    <div class="info-item">
+      <i class="fas fa-phone-alt"></i>
+      <p>+91 98765 43210</p>
+    </div>
+    <div class="info-item">
+      <i class="fas fa-envelope"></i>
+      <p>support@sreeaadya.com</p>
+    </div>
+  </div>
+</div>
+
+<!-- Google Map -->
+<div class="map">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.691385744826!2d78.486671!3d17.385044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb9771f8e7a8a3%3A0x4f19b52d4016d77a!2sHyderabad%2C%20Telangana!5e0!3m2!1sen!2sin!4v1720000000000"
+    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+  </iframe>
+</div>
+
+<!-- Social Media Section ABOVE Footer -->
+<div class="social-section">
+  <h3>Connect With Us</h3>
+  <div class="social-icons">
+    <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>© 2025 Sree Aadya Dry Cleaners. All Rights Reserved.</p>
+</footer>
+
+<!-- Firebase Contact Form Integration -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDcHCOVKKyq4tL9Wvp28hEd-W9Vrl5PBRA",
+  authDomain: "sree-aadya-dry-cleaners-ec791.firebaseapp.com",
+  databaseURL: "https://sree-aadya-dry-cleaners-ec791-default-rtdb.firebaseio.com",
+  projectId: "sree-aadya-dry-cleaners-ec791",
+  storageBucket: "sree-aadya-dry-cleaners-ec791.firebasestorage.app",
+  messagingSenderId: "726289161499",
+  appId: "1:726289161499:web:0fbf79769b4a66b9ee07be",
+  measurementId: "G-ZL08672KFF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if (!name || !email || !message) {
+      alert("⚠️ Please fill all fields before submitting.");
+      return;
+    }
+
+    try {
+      const msgRef = ref(db, "contactMessages");
+      const newMsg = push(msgRef);
+      await set(newMsg, {
+        name,
+        email,
+        message,
+        date: new Date().toLocaleString()
+      });
+
+      alert(`✅ Thank you, ${name}! Your message has been sent successfully.`);
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      alert("❌ Failed to send message. Please try again later.");
+    }
+  });
+</script>
+</body>
+</html>
